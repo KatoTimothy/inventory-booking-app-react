@@ -9,7 +9,7 @@ import '../App.css';
 
 import {FaCalendarAlt, FaDoorOpen, FaUsers} from 'react-icons/fa'
 
-import BookablesPage  from './Bookables/BookabalesPage';
+import BookablesPage  from './Bookables/BookablesPage';
 import  BookingsPage  from './Bookings/BookingsPage';
 import  UsersPage  from './Users/UsersPage';
 import UserPicker from './Users/UserPicker';
