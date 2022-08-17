@@ -1,6 +1,8 @@
+import BookablesList from "./BookablesList" 
+
 const BookablesPage = () =>
     <main className="bookables-page">
-        <p>Bookables!</p>
+       <BookablesList/>
     </main>
 
 export default BookablesPage
