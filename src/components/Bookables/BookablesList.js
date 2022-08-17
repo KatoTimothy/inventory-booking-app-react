@@ -1,12 +1,29 @@
-import { useState } from "react";
-import data from "../../static.json";
+import { useReducer } from "react";
 import { FaArrowRight } from "react-icons/fa";
+
+import data from "../../static.json";
+import bookablesReducer from "../../reducers/bookables-reducer";
+
+import {
+  setGroup,
+  nextBookable,
+  setBookable,
+  toggleHasDetails,
+} from "../../reducers/action-creators";
 
 const { bookables, sessions, days } = data;
 
+const initialState = {
+  group: "Rooms",
+  bookableItemIndex: 0,
+  hasDetails: true,
+  bookables,
+};
+
 const BookablesList = () => {
-  const [bookableIndex, setBookableIndex] = useState(1);
-  const [group, setGroup] = useState("Kit");
+  const [state, dispatch] = useReducer(bookablesReducer, initialState);
+
+  const { group, bookableItemIndex, bookables, hasDetails } = state;
 
   //unique collection of bookable group names
   const groups = [...new Set(bookables.map((b) => b.group))];
@@ -16,22 +33,14 @@ const BookablesList = () => {
     (bookable) => bookable.group === group
   );
 
-  //handler function to respond to group selection
-  const handleGroupChange = (event) => {
-    setGroup(event.target.value);
-    setBookableIndex(0);
-  };
-
-  const selectedBookable = bookablesInGroup[bookableIndex];
-  const [hasDetails, setHasDetails] = useState(false);
-
+  const selectedBookable = bookablesInGroup[bookableItemIndex];
   return (
     <>
       <div>
         <select
           name="group"
           value={group}
-          onChange={(e) => handleGroupChange(e)}
+          onChange={(e) => dispatch(setGroup(e.target.value))}
         >
           {groups.map((group) => (
             <option key={group} value={group}>
@@ -43,9 +52,12 @@ const BookablesList = () => {
           {bookablesInGroup.map((bookableItem, index) => (
             <li
               key={bookableItem.id}
-              className={index === bookableIndex ? "selected" : null}
+              className={index === bookableItemIndex ? "selected" : null}
             >
-              <button className="btn" onClick={() => setBookableIndex(index)}>
+              <button
+                className="btn"
+                onClick={() => dispatch(setBookable(index))}
+              >
                 {bookableItem.title}
               </button>
             </li>
@@ -54,9 +66,7 @@ const BookablesList = () => {
         <p>
           <button
             className="btn"
-            onClick={() =>
-              setBookableIndex((index) => (index + 1) % bookablesInGroup.length)
-            }
+            onClick={() => dispatch(nextBookable())}
             autoFocus
           >
             <FaArrowRight />
@@ -73,8 +83,9 @@ const BookablesList = () => {
                 <input
                   type="checkbox"
                   checked={hasDetails}
-                  onChange={() => setHasDetails((has) => !has)}
+                  onChange={() => dispatch(toggleHasDetails())}
                 />
+                Show details
               </label>
             </span>
           </div>
