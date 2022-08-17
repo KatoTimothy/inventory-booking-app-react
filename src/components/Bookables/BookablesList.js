@@ -14,7 +14,7 @@ const BookablesList =()=> {
     //collection of bookables in selected group
     const bookablesInGroup = bookables.filter(bookable => bookable.group === group)
 
-    const bookableItem = bookablesInGroup[bookableIndex]
+    const selectedBookable = bookablesInGroup[bookableIndex]
     const [hasDetails, setHasDetails] = useState(false)
 
 
@@ -57,10 +57,10 @@ const BookablesList =()=> {
                 </p>
             </div>
             {
-                bookableItem && (
+                selectedBookable ? (
                     <div className="item">
                         <div className="item-header">
-                            <h2>{bookableItem.title}</h2>
+                            <h2>{selectedBookable.title}</h2>
                             <span className="controls">
                                 <label>
                                     <input
@@ -70,7 +70,7 @@ const BookablesList =()=> {
                                 </label>
                             </span>
                         </div>
-                        <p>{bookableItem.notes}</p>
+                        <p>{selectedBookable.notes}</p>
 
                         {
                             hasDetails && (
@@ -78,13 +78,13 @@ const BookablesList =()=> {
                                     <h3>Availability</h3>
                                     <div className="bookable-availability">
                                         <ul>
-                                            {bookableItem.days
+                                            {selectedBookable.days
                                                 .sort()
                                                 .map(dayNumber => 
                                                     <li key={dayNumber}>{days[dayNumber]}</li>)}
                                         </ul>
                                         <ul>
-                                            {bookableItem.sessions
+                                            {selectedBookable.sessions
                                                 .map(sessionNumber => 
                                                     <li key={sessionNumber}>{sessions[sessionNumber]}</li>)}
                                         </ul>
@@ -94,7 +94,7 @@ const BookablesList =()=> {
                         }
                     </div>
                     
-                )
+                ): <div>Oops! You have not selected a bookable yet. Please select one.</div>
             }
         </>
     )
