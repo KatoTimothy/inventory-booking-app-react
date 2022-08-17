@@ -44,6 +44,7 @@ const App =()=>
               </li>
             </ul>
           </nav>
+            <UserPicker/>
         </header>
         <Routes>
           <Route path='/bookings' element={<BookingsPage/>}/>
