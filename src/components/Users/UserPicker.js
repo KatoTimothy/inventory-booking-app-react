@@ -1,6 +1,10 @@
+import data from '../../static.json'
+
+const {users} = data
+
 const UserPicker = ()=>
     <select>
-        <option>Users</option>
+        {users.map(({name}) => <option>{name}</option>)}
     </select>
 
 export default UserPicker
