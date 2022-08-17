@@ -1,7 +1,7 @@
-import UserPicker from "./UserPicker";
+import UsersList from "./UsersList";
 const UsersPage =() =>
     <main className="users-page">
-        <UserPicker/>
+        <UsersList/>
     </main>
 
 export default UsersPage;
