@@ -80,13 +80,13 @@ const BookablesList =()=> {
                                         <ul>
                                             {bookableItem.days
                                                 .sort()
-                                                .map(dayIndex => 
-                                                    <li key={dayIndex}>{days[dayIndex]}</li>)}
+                                                .map(dayNumber => 
+                                                    <li key={dayNumber}>{days[dayNumber]}</li>)}
                                         </ul>
                                         <ul>
                                             {bookableItem.sessions
-                                                .map(sessionIndex => 
-                                                    <li>{sessions[sessionIndex]}</li>)}
+                                                .map(sessionNumber => 
+                                                    <li key={sessionNumber}>{sessions[sessionNumber]}</li>)}
                                         </ul>
                                     </div>
                                 </div>
