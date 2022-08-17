@@ -1,6 +1,6 @@
 import { useState } from "react";
 import data from "../../static.json";
-
+ 
 const { users } = data;
 
 const UsersList = () => {

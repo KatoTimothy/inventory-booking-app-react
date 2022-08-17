@@ -16,6 +16,12 @@ const BookablesList = () => {
     (bookable) => bookable.group === group
   );
 
+  //handler function to respond to group selection
+  const handleGroupChange = (event) => {
+    setGroup(event.target.value);
+    setBookableIndex(0);
+  };
+
   const selectedBookable = bookablesInGroup[bookableIndex];
   const [hasDetails, setHasDetails] = useState(false);
 
@@ -25,7 +31,7 @@ const BookablesList = () => {
         <select
           name="group"
           value={group}
-          onChange={(e) => setGroup(e.target.value)}
+          onChange={(e) => handleGroupChange(e)}
         >
           {groups.map((group) => (
             <option key={group} value={group}>
