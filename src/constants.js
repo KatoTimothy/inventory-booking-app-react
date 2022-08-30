@@ -3,6 +3,10 @@ const constants = {
   NEXT_BOOKABLE: "NEXT_BOOKABLE",
   TOGGLE_HAS_DETAILS: "TOGGLE_HAS_DETAILS",
   SET_GROUP: "SET_GROUP",
+  NEXT_WEEK: "NEXT_WEEK",
+  PREVIOUS_WEEK: "PREVIOUS_WEEK",
+  TODAY: "TODAY",
+  SET_DATE: "SET_DATE",
 };
 
 export default constants;
