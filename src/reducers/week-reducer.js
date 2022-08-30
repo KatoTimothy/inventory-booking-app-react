@@ -1,7 +1,8 @@
 import constants from "../constants";
-const { NEXT_WEEK, PREVIOUS_WEEK, TODAY, SET_DATE } = constants;
 
 import { getWeek } from "../utils/date-wrangler";
+
+const { NEXT_WEEK, PREVIOUS_WEEK, TODAY, SET_DATE } = constants;
 
 const weekReducer = (state, action) => {
   switch (action.type) {
@@ -13,6 +14,8 @@ const weekReducer = (state, action) => {
       return getWeek(new Date());
     case SET_DATE:
       return getWeek(new Date(action.payload));
+    default:
+      throw new Error(`Unknown action type: ${action.type}`);
   }
 };
 

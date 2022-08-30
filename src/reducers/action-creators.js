@@ -1,7 +1,15 @@
 import constants from "../constants";
 
-const { SET_GROUP, SET_BOOKABLE, NEXT_BOOKABLE, TOGGLE_HAS_DETAILS } =
-  constants;
+const {
+  SET_GROUP,
+  SET_BOOKABLE,
+  NEXT_BOOKABLE,
+  TOGGLE_HAS_DETAILS,
+  NEXT_WEEK,
+  PREVIOUS_WEEK,
+  TODAY,
+  SET_DATE,
+} = constants;
 
 export const setGroup = (groupName) => {
   return { type: SET_GROUP, payload: groupName };
@@ -17,4 +25,22 @@ export const nextBookable = () => {
 
 export const toggleHasDetails = () => {
   return { type: TOGGLE_HAS_DETAILS };
+};
+
+export const nextWeek = () => {
+  return {
+    type: NEXT_WEEK,
+  };
+};
+
+export const previousWeek = () => {
+  return {
+    type: PREVIOUS_WEEK,
+  };
+};
+
+export const today = () => {
+  return {
+    type: TODAY,
+  };
 };

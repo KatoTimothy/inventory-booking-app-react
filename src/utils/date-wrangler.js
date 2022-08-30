@@ -5,7 +5,7 @@ export const shiftDate = (date, daysToShift) => {
 };
 
 export const getWeek = (forDate, daysOffset = 0) => {
-  const date = daysToShift(forDate, daysOffset);
+  const date = shiftDate(forDate, daysOffset);
   const day = date.getDay();
 
   return {
