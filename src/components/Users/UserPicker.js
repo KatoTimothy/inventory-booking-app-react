@@ -8,9 +8,12 @@ const UserPicker = () => {
   const [users, setUsers] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:3001/users")
-      .then((res) => res.json())
-      .then((data) => setUsers(data));
+    const fetchUsers = async () => {
+      const response = await fetch("http://localhost:3001/users");
+      const data = await response.json();
+      setUsers(data);
+    };
+    fetchUsers();
   }, []);
 
   if (users === null) {
