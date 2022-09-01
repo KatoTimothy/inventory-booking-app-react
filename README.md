@@ -1,13 +1,11 @@
-# Inventory Booking App
-
-This app is about a fictious company that lets staff book the resources.
-
-## Available Scripts
+# Inventory booking app
+A web app for a fictious company that lets its staff book resources. It's a single page application has three pages for Bookables, Bookings and Users.
 
 In the project directory, you can run:
 
-### `npm start`
+### `npm run server`
+To run mockup server to fetch app data
 
-### `npm run server` 
 
-To mock json server to fetch data for the app
+
+
