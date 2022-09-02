@@ -43,8 +43,8 @@ const bookablesReducer = (state, action) => {
       return {
         ...state,
         isLoading: true,
-        bookables: [],
         error: false,
+        bookables: [],
       };
     case FETCH_BOOKABLES_SUCCESS:
       return {

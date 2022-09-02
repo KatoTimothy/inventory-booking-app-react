@@ -1,29 +1,37 @@
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import { FaArrowRight } from "react-icons/fa";
+import Spinner from "../UI/Spinner";
 
 import data from "../../static.json";
 import bookablesReducer from "../../reducers/bookables-reducer";
+import getData from "../../utils/api";
 
 import {
   setGroup,
   nextBookable,
   setBookable,
   toggleHasDetails,
+  fetchBookablesSuccess,
+  fetchBookablesError,
+  fetchBookablesRequest,
 } from "../../reducers/action-creators";
 
-const { bookables, sessions, days } = data;
+const { sessions, days } = data;
 
 const initialState = {
   group: "Rooms",
   bookableItemIndex: 0,
   hasDetails: true,
-  bookables,
+  bookables: [],
+  isLoading: true,
+  error: "",
 };
 
 const BookablesList = () => {
   const [state, dispatch] = useReducer(bookablesReducer, initialState);
 
-  const { group, bookableItemIndex, bookables, hasDetails } = state;
+  const { group, bookableItemIndex, bookables, hasDetails, isLoading, error } =
+    state;
 
   //unique collection of bookable group names
   const groups = [...new Set(bookables.map((b) => b.group))];
@@ -34,6 +42,28 @@ const BookablesList = () => {
   );
 
   const selectedBookable = bookablesInGroup[bookableItemIndex];
+
+  useEffect(() => {
+    dispatch(fetchBookablesRequest());
+
+    getData("http://localhost:3001/bookables")
+      .then((bookableData) => {
+        dispatch(fetchBookablesSuccess(bookableData));
+      })
+      .catch((error) => {
+        dispatch(fetchBookablesError(error.message));
+      });
+  }, []);
+  if (error) {
+    return <p>{error}</p>;
+  }
+  if (isLoading) {
+    return (
+      <p>
+        <Spinner /> Loading bookables
+      </p>
+    );
+  }
   return (
     <>
       <div>
@@ -74,7 +104,7 @@ const BookablesList = () => {
           </button>
         </p>
       </div>
-      {selectedBookable ? (
+      {selectedBookable && (
         <div className="item">
           <div className="item-header">
             <h2>{selectedBookable.title}</h2>
@@ -108,10 +138,6 @@ const BookablesList = () => {
               </div>
             </div>
           )}
-        </div>
-      ) : (
-        <div>
-          Oops! You have not selected a bookable yet. Please select one.
         </div>
       )}
     </>
