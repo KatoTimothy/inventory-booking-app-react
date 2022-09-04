@@ -30,11 +30,13 @@ const WeekPicker = ({ date }) => {
           <FaChevronLeft />
           <span>Prev</span>
         </button>
+
         {/* Today button */}
         <button className="btn" onClick={() => dispatch(today())}>
           <FaCalendarDay />
           <span>Today</span>
         </button>
+
         {/* Date text input */}
         <span>
           <input
@@ -44,16 +46,19 @@ const WeekPicker = ({ date }) => {
             ref={textBoxRef}
           />
         </span>
+        {/* Go button */}
         <button className="btn go" onClick={goToDate}>
           <FaCalendarCheck />
           <span>Go</span>
         </button>
+
         {/* Next button */}
         <button className="btn" onClick={() => dispatch(nextWeek())}>
           <span>Next</span>
           <FaChevronRight />
         </button>
       </p>
+
       {/* start to end week date strings */}
       <p>
         {week.start.toDateString()} - {week.end.toDateString()}
