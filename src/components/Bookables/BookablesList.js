@@ -18,19 +18,19 @@ import {
 
 const { sessions, days } = data;
 
-const initialState = {
-  group: "Rooms",
-  bookableItemIndex: 0,
-  hasDetails: true,
-  bookables: [],
-  isLoading: true,
-  error: "",
-};
-
 const BookablesList = () => {
+  const initialState = {
+    group: "Rooms",
+    bookableIndex: 0,
+    hasDetails: true,
+    bookables: [],
+    isLoading: true,
+    error: null,
+  };
   const [state, dispatch] = useReducer(bookablesReducer, initialState);
 
-  const { group, bookableItemIndex, bookables, hasDetails, isLoading, error } =
+  window.state = state;
+  const { group, bookableIndex, bookables, hasDetails, isLoading, error } =
     state;
 
   //unique collection of bookable group names
@@ -41,8 +41,9 @@ const BookablesList = () => {
     (bookable) => bookable.group === group
   );
 
-  const selectedBookable = bookablesInGroup[bookableItemIndex];
+  const selectedBookable = bookablesInGroup[bookableIndex];
 
+  // effects
   useEffect(() => {
     dispatch(fetchBookablesRequest());
 
@@ -54,9 +55,11 @@ const BookablesList = () => {
         dispatch(fetchBookablesError(error.message));
       });
   }, []);
+
   if (error) {
     return <p>{error}</p>;
   }
+
   if (isLoading) {
     return (
       <p>
@@ -82,7 +85,7 @@ const BookablesList = () => {
           {bookablesInGroup.map((bookableItem, index) => (
             <li
               key={bookableItem.id}
-              className={index === bookableItemIndex ? "selected" : null}
+              className={index === bookableIndex ? "selected" : null}
             >
               <button
                 className="btn"

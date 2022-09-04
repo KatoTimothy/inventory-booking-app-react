@@ -16,12 +16,12 @@ const bookablesReducer = (state, action) => {
       return {
         ...state,
         group: action.payload,
-        bookableItemIndex: 0,
+        bookableIndex: 0,
       };
     case SET_BOOKABLE:
       return {
         ...state,
-        bookableItemIndex: action.payload,
+        bookableIndex: action.payload,
       };
 
     case TOGGLE_HAS_DETAILS:
@@ -36,8 +36,7 @@ const bookablesReducer = (state, action) => {
 
       return {
         ...state,
-        bookableItemIndex:
-          (state.bookableItemIndex + 1) % bookablesInGroupCount,
+        bookableIndex: (state.bookableIndex + 1) % bookablesInGroupCount,
       };
     case FETCH_BOOKABLES_REQUEST:
       return {
