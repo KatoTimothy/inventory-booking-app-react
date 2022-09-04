@@ -55,6 +55,14 @@ export const today = () => {
   };
 };
 
+//dispatched when setting a particular date
+export const setDate = (date) => {
+  return {
+    type: SET_DATE,
+    payload: date,
+  };
+};
+
 //dispatched when making request to fetch `bookables` data
 export const fetchBookablesRequest = () => {
   return {

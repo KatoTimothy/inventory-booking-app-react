@@ -10,20 +10,16 @@ import {
 import getData from "../../utils/api";
 import Spinner from "../UI/Spinner";
 
-//import data from "../../static.json";
-//const { users } = data;
-
 const UsersList = () => {
   const initialState = {
     userIndex: 2,
-    error: "",
+    error: null,
     isLoading: true,
     users: [],
   };
   const [state, dispatch] = useReducer(usersReducer, initialState);
   const { users, isLoading, userIndex, error } = state;
 
-  window.state = state;
   useEffect(() => {
     //make a request for the data
     dispatch(fetchUsersRequest());
