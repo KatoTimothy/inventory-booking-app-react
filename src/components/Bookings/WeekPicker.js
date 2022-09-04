@@ -30,7 +30,7 @@ const WeekPicker = ({ date }) => {
           <FaChevronLeft />
           <span>Prev</span>
         </button>
-        {/* Today today */}
+        {/* Today button */}
         <button className="btn" onClick={() => dispatch(today())}>
           <FaCalendarDay />
           <span>Today</span>
@@ -54,6 +54,7 @@ const WeekPicker = ({ date }) => {
           <FaChevronRight />
         </button>
       </p>
+      {/* start to end week date strings */}
       <p>
         {week.start.toDateString()} - {week.end.toDateString()}
       </p>
