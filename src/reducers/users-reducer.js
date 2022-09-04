@@ -33,6 +33,8 @@ const usersReducer = (state, action) => {
         error: action.payload,
         isLoading: false,
       };
+    default:
+      return state;
   }
 };
 
