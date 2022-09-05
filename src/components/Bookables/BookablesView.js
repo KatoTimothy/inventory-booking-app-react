@@ -20,7 +20,7 @@ const initialState = {
 const BookablesView = () => {
   const [state, dispatch] = useReducer(bookablesReducer, initialState);
 
-  // get bookables of a particular group
+  // List of bookables contained in a group in state
   const bookablesInGroup = state.bookables.filter(
     (b) => b.group === state.group
   );

@@ -3,7 +3,6 @@ import constants from "../constants";
 const {
   SET_GROUP,
   SET_BOOKABLE,
-  TOGGLE_HAS_DETAILS,
   NEXT_BOOKABLE,
   FETCH_BOOKABLES_REQUEST,
   FETCH_BOOKABLES_SUCCESS,
@@ -22,12 +21,6 @@ const bookablesReducer = (state, action) => {
       return {
         ...state,
         bookableIndex: action.payload,
-      };
-
-    case TOGGLE_HAS_DETAILS:
-      return {
-        ...state,
-        hasDetails: !state.hasDetails,
       };
     case NEXT_BOOKABLE:
       const bookablesInGroupCount = state.bookables.filter(

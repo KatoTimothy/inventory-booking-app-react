@@ -21,17 +21,18 @@ import {
 const BookablesList = ({ state, dispatch }) => {
   //reference to `Next` Button
   const nextButtonRef = useRef();
-  
+
   const { bookables, group, error, bookableIndex, isLoading } = state;
 
-  //unique collection of bookable group names
+  //List of group names of bookables
   const groups = [...new Set(bookables.map((b) => b.group))];
 
-  //collection of bookables in selected group
+  //List of bookable items in selected group
   const bookablesInGroup = bookables.filter(
     (bookable) => bookable.group === group
   );
 
+  // event handlers
   const changeBookable = (index) => {
     dispatch(setBookable(index));
     nextButtonRef.current.focus();
