@@ -1,6 +1,8 @@
 import { useState } from "react";
+
 // import data
-import { days, sessions } from "../../static.json";
+import data from "../../static.json";
+const { days } = data;
 
 //BookableDetails component
 const BookableDetails = ({ bookable }) => {
@@ -11,10 +13,13 @@ const BookableDetails = ({ bookable }) => {
   };
 
   return bookable ? (
+    // container
     <div className="bookable-details item">
       {/* header */}
       <div className="item-header">
         <h2>{bookable.title}</h2>
+
+        {/* show details checkbox */}
         <span className="controls">
           <label>
             <input
@@ -27,19 +32,20 @@ const BookableDetails = ({ bookable }) => {
         </span>
       </div>
       <p>{bookable.notes}</p>
-      {/* details page */}
-      {hasDetails} && (
-      <div className="item-details">
-        <h3>Availability</h3>
-        <div className="bookable-availability">
-          <ul>
-            {bookable.days.sort().map((dayIndex) => (
-              <li key={dayIndex}> {days[dayIndex]}</li>
-            ))}
-          </ul>
+
+      {/* details section */}
+      {hasDetails && (
+        <div className="item-details">
+          <h3>Availability</h3>
+          <div className="bookable-availability">
+            <ul>
+              {bookable.days.sort().map((dayIndex) => (
+                <li key={dayIndex}> {days[dayIndex]}</li>
+              ))}
+            </ul>
+          </div>
         </div>
-      </div>
-      )
+      )}
     </div>
   ) : null;
 };

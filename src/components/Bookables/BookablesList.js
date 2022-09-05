@@ -1,41 +1,28 @@
-import { useEffect, useReducer, useRef } from "react";
+import { useEffect, useRef } from "react";
+
+// import components
 import { FaArrowRight } from "react-icons/fa";
 import Spinner from "../UI/Spinner";
 
-import data from "../../static.json";
-import bookablesReducer from "../../reducers/bookables-reducer";
+//fetches remote data
 import getData from "../../utils/api";
 
+// import action creators
 import {
   setGroup,
   nextBookable,
   setBookable,
-  toggleHasDetails,
   fetchBookablesSuccess,
   fetchBookablesError,
   fetchBookablesRequest,
 } from "../../reducers/action-creators";
 
-const { sessions, days } = data;
-
-const initialState = {
-  group: "Rooms",
-  bookableIndex: 0,
-  hasDetails: true,
-  bookables: [],
-  isLoading: true,
-  error: null,
-};
-const BookablesList = () => {
-  const [state, dispatch] = useReducer(bookablesReducer, initialState);
-
-  // window.state = state;
-
-  const { group, bookableIndex, bookables, hasDetails, isLoading, error } =
-    state;
-
+// BookablesList component
+const BookablesList = ({ state, dispatch }) => {
   //reference to `Next` Button
   const nextButtonRef = useRef();
+  
+  const { bookables, group, error, bookableIndex, isLoading } = state;
 
   //unique collection of bookable group names
   const groups = [...new Set(bookables.map((b) => b.group))];
@@ -45,10 +32,8 @@ const BookablesList = () => {
     (bookable) => bookable.group === group
   );
 
-  const selectedBookable = bookablesInGroup[bookableIndex];
-
-  const changeBookable = (selectedIndex) => {
-    dispatch(setBookable(selectedIndex));
+  const changeBookable = (index) => {
+    dispatch(setBookable(index));
     nextButtonRef.current.focus();
   };
 
@@ -58,10 +43,6 @@ const BookablesList = () => {
 
   const changeGroup = (groupName) => {
     dispatch(setGroup(groupName));
-  };
-
-  const toggleDetails = () => {
-    dispatch(toggleHasDetails());
   };
 
   // effects
@@ -129,45 +110,6 @@ const BookablesList = () => {
           </button>
         </p>
       </div>
-      {/* Bookables details page */}
-      {selectedBookable && (
-        <div className="item">
-          <div className="item-header">
-            <h2>{selectedBookable.title}</h2>
-            <span className="controls">
-              {/* show details checkbox */}
-              <label>
-                <input
-                  type="checkbox"
-                  checked={hasDetails}
-                  onChange={toggleDetails}
-                />
-                Show details
-              </label>
-            </span>
-          </div>
-          <p>{selectedBookable.notes}</p>
-
-          {/* bookables details */}
-          {hasDetails && (
-            <div className="item-details">
-              <h3>Availability</h3>
-              <div className="bookable-availability">
-                <ul>
-                  {selectedBookable.days.sort().map((dayNumber) => (
-                    <li key={dayNumber}>{days[dayNumber]}</li>
-                  ))}
-                </ul>
-                <ul>
-                  {selectedBookable.sessions.map((sessionNumber) => (
-                    <li key={sessionNumber}>{sessions[sessionNumber]}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          )}
-        </div>
-      )}
     </>
   );
 };
