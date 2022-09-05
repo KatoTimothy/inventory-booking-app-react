@@ -57,7 +57,7 @@ const BookablesList = ({ state, dispatch }) => {
       .catch((error) => {
         dispatch(fetchBookablesError(error.message));
       });
-  }, []);
+  }, [dispatch]);
 
   if (error) {
     return <p>{error}</p>;
