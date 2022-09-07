@@ -1,7 +1,13 @@
 import constants from "../constants";
 
-const { SET_GROUP, SET_BOOKABLE, TOGGLE_HAS_DETAILS, NEXT_BOOKABLE } =
-  constants;
+const {
+  SET_GROUP,
+  SET_BOOKABLE,
+  NEXT_BOOKABLE,
+  FETCH_BOOKABLES_REQUEST,
+  FETCH_BOOKABLES_SUCCESS,
+  FETCH_BOOKABLES_ERROR,
+} = constants;
 
 const bookablesReducer = (state, action) => {
   switch (action.type) {
@@ -9,18 +15,12 @@ const bookablesReducer = (state, action) => {
       return {
         ...state,
         group: action.payload,
-        bookableItemIndex: 0,
+        bookableIndex: 0,
       };
     case SET_BOOKABLE:
       return {
         ...state,
-        bookableItemIndex: action.payload,
-      };
-
-    case TOGGLE_HAS_DETAILS:
-      return {
-        ...state,
-        hasDetails: !state.hasDetails,
+        bookableIndex: action.payload,
       };
     case NEXT_BOOKABLE:
       const bookablesInGroupCount = state.bookables.filter(
@@ -29,8 +29,26 @@ const bookablesReducer = (state, action) => {
 
       return {
         ...state,
-        bookableItemIndex:
-          (state.bookableItemIndex + 1) % bookablesInGroupCount,
+        bookableIndex: (state.bookableIndex + 1) % bookablesInGroupCount,
+      };
+    case FETCH_BOOKABLES_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+        error: false,
+        bookables: [],
+      };
+    case FETCH_BOOKABLES_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        bookables: action.payload,
+      };
+    case FETCH_BOOKABLES_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload,
       };
     default:
       return state;
