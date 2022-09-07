@@ -1,40 +1,29 @@
-import { useState, useEffect, useReducer } from "react";
-import usersReducer from "../../reducers/users-reducer";
-import {
-  fetchUsersError,
-  fetchUsersRequest,
-  setUserIndex,
-  fetchUsersSuccess,
-} from "../../reducers/action-creators";
+import { useState, useEffect } from "react";
 
 import getData from "../../utils/api";
 import Spinner from "../UI/Spinner";
 
-const UsersList = () => {
-  const initialState = {
-    userIndex: 2,
-    error: null,
-    isLoading: true,
-    users: [],
-  };
-  const [state, dispatch] = useReducer(usersReducer, initialState);
-  const { users, isLoading, userIndex, error } = state;
+const UsersList = ({ selectedUser, setSelectedUser }) => {
+  /**Manage state */
+  const [users, setUsers] = useState(null);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
+  /**Effects */
   useEffect(() => {
-    //make a request for the data
-    dispatch(fetchUsersRequest());
-
-    //fetch data
+    //fetch data from server
     getData("http://localhost:3001/users")
       .then((users) => {
-        dispatch(fetchUsersSuccess(users));
+        setSelectedUser(users[1]); //immediately select user
+        setUsers(users); //populate the list of users
+        setIsLoading(false); //stop the loading state
       })
       .catch((error) => {
-        dispatch(fetchUsersError(error.message));
+        setError(error);
+        setIsLoading(false);
       });
   }, []);
 
-  const selectedUser = users[userIndex];
   if (error) {
     return <p>{error}</p>;
   }
@@ -49,30 +38,17 @@ const UsersList = () => {
     <>
       <div>
         <ul className="users items-list-nav">
-          {users.map((user, index) => (
+          {users.map((user) => (
             <li
-              className={index === userIndex ? "selected" : null}
+              className={user.id === selectedUser?.id ? "selected" : null}
               key={user.id}
             >
-              <button
-                className="btn"
-                onClick={() => dispatch(setUserIndex(index))}
-              >
+              <button className="btn" onClick={() => setSelectedUser(user)}>
                 {user.name}
               </button>
             </li>
           ))}
         </ul>
-      </div>
-
-      <div className="item ">
-        <div className="item-header">
-          <h2>{selectedUser.name}</h2>
-        </div>
-        <div className="item-details">
-          <h3>{selectedUser.title}</h3>
-          <div>{selectedUser.notes}</div>
-        </div>
       </div>
     </>
   );
