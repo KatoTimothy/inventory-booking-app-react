@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // import components
 import { FaArrowRight } from "react-icons/fa";
@@ -7,58 +7,64 @@ import Spinner from "../UI/Spinner";
 //fetches remote data
 import getData from "../../utils/api";
 
-// import action creators
-import {
-  setGroup,
-  nextBookable,
-  setBookable,
-  fetchBookablesSuccess,
-  fetchBookablesError,
-  fetchBookablesRequest,
-} from "../../reducers/action-creators";
-
 // BookablesList component
-const BookablesList = ({ state, dispatch }) => {
+const BookablesList = ({ bookable, setBookable }) => {
+  /**Variables */
+  const [bookables, setBookables] = useState([]);
+  const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
   //reference to `Next` Button
   const nextButtonRef = useRef();
 
-  const { bookables, group, error, bookableIndex, isLoading } = state;
+  //get current group bookable belongs to
+  const group = bookable?.group;
 
-  //List of group names of bookables
-  const groups = [...new Set(bookables.map((b) => b.group))];
-
-  //List of bookable items in selected group
+  //List of bookable items in group
   const bookablesInGroup = bookables.filter(
     (bookable) => bookable.group === group
   );
 
-  // event handlers
-  const changeBookable = (index) => {
-    dispatch(setBookable(index));
-    nextButtonRef.current.focus();
-  };
+  //List of all group names of bookables
+  const groups = [...new Set(bookables.map((b) => b.group))];
 
-  const changeNextBookable = () => {
-    dispatch(nextBookable());
-  };
-
-  const changeGroup = (groupName) => {
-    dispatch(setGroup(groupName));
-  };
-
-  // effects
+  /**effects */
   useEffect(() => {
-    dispatch(fetchBookablesRequest());
-
     getData("http://localhost:3001/bookables")
-      .then((bookableData) => {
-        dispatch(fetchBookablesSuccess(bookableData));
+      .then((bookables) => {
+        setBookable(bookables[1]);
+        setBookables(bookables);
+        setIsLoading(false);
       })
       .catch((error) => {
-        dispatch(fetchBookablesError(error.message));
+        setError(error);
       });
-  }, [dispatch]);
+  }, [setBookable]);
 
+  /**event handler functions */
+  //called when user clicks on a bookable
+  function changeBookable(selectedBookable) {
+    setBookable(selectedBookable);
+    nextButtonRef?.current.focus();
+  }
+
+  //called when user clicks `Next` button
+  function changeNextBookable() {
+    const indexOfBookable = bookablesInGroup.indexOf(bookable);
+    const indexOfNextBookable = (indexOfBookable + 1) % bookablesInGroup.length;
+    const nextBookable = bookablesInGroup[indexOfNextBookable];
+    setBookable(nextBookable);
+  }
+
+  //called when user selects group from selectbox
+  function changeGroup(e) {
+    const bookablesInSelectedGroup = bookables.filter(
+      (b) => b.group === e.target.value
+    );
+    setBookable(bookablesInSelectedGroup[1]);
+  }
+
+  /**UI */
   if (error) {
     return <p>{error}</p>;
   }
@@ -74,11 +80,7 @@ const BookablesList = ({ state, dispatch }) => {
     <>
       <div>
         {/* groups dropdown menu */}
-        <select
-          name="group"
-          value={group}
-          onChange={(e) => changeGroup(e.target.value)}
-        >
+        <select name="group" value={group} onChange={(e) => changeGroup(e)}>
           {groups.map((group) => (
             <option key={group} value={group}>
               {group}
@@ -87,12 +89,15 @@ const BookablesList = ({ state, dispatch }) => {
         </select>
         {/* Bookables list */}
         <ul className="bookables items-list-nav">
-          {bookablesInGroup.map((bookableItem, index) => (
+          {bookablesInGroup.map((bookableItem) => (
             <li
               key={bookableItem.id}
-              className={index === bookableIndex ? "selected" : null}
+              className={bookableItem.id === bookable.id ? "selected" : null}
             >
-              <button className="btn" onClick={() => changeBookable(index)}>
+              <button
+                className="btn"
+                onClick={() => changeBookable(bookableItem)}
+              >
                 {bookableItem.title}
               </button>
             </li>
@@ -102,7 +107,7 @@ const BookablesList = ({ state, dispatch }) => {
         <p>
           <button
             className="btn"
-            onClick={changeNextBookable}
+            onClick={() => changeNextBookable()}
             autoFocus
             ref={nextButtonRef}
           >
