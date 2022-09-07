@@ -22,7 +22,7 @@ const UsersList = ({ selectedUser, setSelectedUser }) => {
         setError(error);
         setIsLoading(false);
       });
-  }, []);
+  }, [setSelectedUser]);
 
   if (error) {
     return <p>{error}</p>;
