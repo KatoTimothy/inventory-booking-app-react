@@ -61,7 +61,7 @@ const BookablesList = ({ bookable, setBookable }) => {
     const bookablesInSelectedGroup = bookables.filter(
       (b) => b.group === e.target.value
     );
-    setBookable(bookablesInSelectedGroup[1]);
+    setBookable(bookablesInSelectedGroup[0]);
   }
 
   /**UI */
