@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 // import components
 import { FaArrowRight } from "react-icons/fa";
@@ -13,9 +13,6 @@ const BookablesList = ({ bookable, setBookable }) => {
   const [bookables, setBookables] = useState([]);
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-
-  //reference to `Next` Button
-  const nextButtonRef = useRef();
 
   //get current group bookable belongs to
   const group = bookable?.group;
@@ -45,7 +42,6 @@ const BookablesList = ({ bookable, setBookable }) => {
   //called when user clicks on a bookable
   function changeBookable(selectedBookable) {
     setBookable(selectedBookable);
-    nextButtonRef?.current.focus();
   }
 
   //called when user clicks `Next` button
@@ -105,12 +101,7 @@ const BookablesList = ({ bookable, setBookable }) => {
         </ul>
         {/* Next button */}
         <p>
-          <button
-            className="btn"
-            onClick={() => changeNextBookable()}
-            autoFocus
-            ref={nextButtonRef}
-          >
+          <button className="btn" onClick={() => changeNextBookable()}>
             <FaArrowRight />
             <span>Next</span>
           </button>
