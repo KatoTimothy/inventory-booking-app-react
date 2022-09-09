@@ -1,7 +1,4 @@
-import { useReducer, useState } from "react";
-
-import weekReducer from "../../reducers/week-reducer";
-import { getWeek } from "../../utils/date-wrangler";
+import { useState } from "react";
 
 //action creator functions imports
 import {
@@ -20,11 +17,10 @@ import {
 } from "react-icons/fa";
 
 //WeekPicker component
-const WeekPicker = ({ date }) => {
-  const [week, dispatch] = useReducer(weekReducer, date, getWeek);
+const WeekPicker = ({ dispatch }) => {
   const [dateText, setDateText] = useState("2022-09-21");
 
-  //sets particular date from date textbox input
+  //sets particular date shown in the date textbox input
   const goToDate = () => {
     dispatch(setDate(dateText));
   };
@@ -67,10 +63,10 @@ const WeekPicker = ({ date }) => {
         </button>
       </p>
 
-      {/* start to end week date strings */}
+      {/* start to end week date strings
       <p>
         {week.start.toDateString()} - {week.end.toDateString()}
-      </p>
+      </p> */}
     </div>
   );
 };
