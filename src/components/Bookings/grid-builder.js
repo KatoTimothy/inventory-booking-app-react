@@ -1,7 +1,10 @@
-import { sessions as sessionNames } from "../../static.json";
+import staticData from "../../static.json";
 import { shiftDate, shortISO } from "../../utils/date-wrangler";
 
-//generates a grid of sessions and dates
+const { sessions } = staticData
+
+//generates data to be displayed in the
+//grid based on the selected bookable selected
 export const getGrid = (bookable, startDate) => {
   //list of dates of a bookable
   const dates = bookable.days
@@ -9,13 +12,13 @@ export const getGrid = (bookable, startDate) => {
     .map((dayIndex) => shortISO(shiftDate(startDate, dayIndex)));
 
   //list of session names of a bookable
-  const sessions = bookable.sessions.map(
-    (sessionIndex) => sessionNames[sessionIndex]
+  const sessionNames = bookable.sessions.map(
+    (sessionIndex) => sessions[sessionIndex]
   );
 
   const grid = {};
 
-  sessions.forEach((session) => {
+  sessionNames.forEach((session) => {
     grid[session] = {};
 
     dates.forEach((date) => {
@@ -30,13 +33,13 @@ export const getGrid = (bookable, startDate) => {
 
   return {
     grid,
+    sessions: sessionNames,
     dates,
-    sessions,
   };
 };
 
 //transforms bookings data into a handy lookup object
-const transformBookings = (bookingsArray) => {
+export const transformBookings = (bookingsArray) => {
   return bookingsArray.reduce((bookings, booking) => {
     const { session, date } = booking;
     if (!bookings[session]) {
@@ -44,5 +47,5 @@ const transformBookings = (bookingsArray) => {
     }
     bookings[session][date] = booking;
     return bookings;
-  });
+  }, {});
 };
