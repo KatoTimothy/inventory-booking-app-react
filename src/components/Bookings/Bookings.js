@@ -19,7 +19,12 @@ const Bookings = ({ bookable }) => {
     <div className="bookings">
       <div>
         <WeekPicker dispatch={dispatch} />
-        <BookingsGrid week={week} booking={booking} setBooking={setBooking} />
+        <BookingsGrid
+          week={week}
+          booking={booking}
+          bookable={bookable}
+          setBooking={setBooking}
+        />
       </div>
       <BookingsDetails booking={booking} bookable={bookable} />
     </div>
