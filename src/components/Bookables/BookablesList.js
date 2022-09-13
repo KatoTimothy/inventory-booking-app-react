@@ -29,7 +29,7 @@ const BookablesList = ({ bookable, setBookable }) => {
   useEffect(() => {
     getData("http://localhost:3001/bookables")
       .then((bookables) => {
-        setBookable(bookables[1]);
+        setBookable(bookables[0]);
         setBookables(bookables);
         setIsLoading(false);
       })
