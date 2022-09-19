@@ -10,7 +10,11 @@ import BookingsDetails from "./BookingsDetails";
 
 const Bookings = ({ bookable }) => {
   /**Manage states */
-  const [week, dispatch] = useReducer(weekReducer, new Date(), getWeek);
+  const [week, dispatch] = useReducer(
+    weekReducer,
+    new Date("2022-06-25"),
+    getWeek
+  );
 
   const [booking, setBooking] = useState(null);
 

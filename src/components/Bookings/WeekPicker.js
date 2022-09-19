@@ -18,7 +18,7 @@ import {
 
 //WeekPicker component
 const WeekPicker = ({ dispatch }) => {
-  const [dateText, setDateText] = useState("2022-09-21");
+  const [dateText, setDateText] = useState("2022-06-25");
 
   //sets particular date shown in the date textbox input
   const goToDate = () => {
@@ -44,8 +44,7 @@ const WeekPicker = ({ dispatch }) => {
         <span>
           <input
             type="text"
-            placeholder="2022-09-28"
-            defaultValue={dateText}
+            placeholder="e.g. 2022-06-25"
             onChange={(e) => setDateText(e.target.value)}
           />
         </span>
