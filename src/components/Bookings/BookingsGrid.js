@@ -72,15 +72,12 @@ const BookingsGrid = ({ week, bookable, booking, setBooking }) => {
             <th>
               <span className="status">
                 <Spinner />
-              </span>
+              </span> 
             </th>
             {dates.map((date) => (
-              <th key={date}>
-                {new Date(date).toDateString()}
-              </th>
+              <th key={date}>{new Date(date).toDateString()}</th>
             ))}
           </tr>
-
         </thead>
         <tbody>
           {sessions.map((session) => (
