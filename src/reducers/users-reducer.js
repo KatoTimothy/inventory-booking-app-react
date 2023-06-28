@@ -20,12 +20,14 @@ const usersReducer = (state, action) => {
         ...state,
         users: [],
         isLoading: true,
+        error: ""
       };
     case FETCH_USERS_SUCCESS:
       return {
         ...state,
         users: action.payload,
         isLoading: false,
+        error: ""
       };
     case FETCH_USERS_ERROR:
       return {
