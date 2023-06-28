@@ -1,12 +1,12 @@
-const UserDetails = ({ selectedUser }) => {
-  return selectedUser ? (
+const UserDetails = ({ user }) => {
+  return user ? (
     <div className="item user ">
       <div className="item-header">
-        <h2>{selectedUser.name}</h2>
+        <h2>{user.name}</h2>
       </div>
       <div className="item-details">
-        <h3>{selectedUser.title}</h3>
-        <div>{selectedUser.notes}</div>
+        <h3>{user.title}</h3>
+        <div>{user.notes}</div>
       </div>
     </div>
   ) : null;
