@@ -11,7 +11,6 @@ const BookingsPage = () => {
   /**UI */
   return (
     <main className="bookings-page">
-      <BookablesList bookable={bookable} setBookable={setBookable} />
       <Bookings bookable={bookable} />
     </main>
   );
