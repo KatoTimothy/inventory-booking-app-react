@@ -4,7 +4,7 @@ const {
   SET_GROUP,
   SET_BOOKABLE,
   NEXT_BOOKABLE,
-  TOGGLE_HAS_DETAILS,
+  TOGGLE_SHOW_DETAILS: TOGGLE_SHOW_DETAILS,
   NEXT_WEEK,
   PREVIOUS_WEEK,
   TODAY,
@@ -30,8 +30,8 @@ export const nextBookable = () => {
   return { type: NEXT_BOOKABLE };
 };
 
-export const toggleHasDetails = () => {
-  return { type: TOGGLE_HAS_DETAILS };
+export const toggleShowDetails = () => {
+  return { type: TOGGLE_SHOW_DETAILS };
 };
 
 //dispatched to get next week's week object
