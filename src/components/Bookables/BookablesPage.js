@@ -1,11 +1,10 @@
-// import components
-import BookablesView from "./BookablesView";
+import React from "react";
+import BookablesList from "./BookablesList";
 
-//BookablesPage component
-const BookablesPage = () => (
-  <main className="bookables-page">
-    <BookablesView />
-  </main>
-);
-
-export default BookablesPage;
+export const BookablesPage = () => {
+  return (
+    <main className="bookables-page">
+      <BookablesList />
+    </main>
+  );
+};
