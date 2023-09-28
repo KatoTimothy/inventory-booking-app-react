@@ -25,7 +25,6 @@ const UsersList = () => {
   /**Manage state */
   const { users, userIndex, isLoading, error } = state;
   const selectedUser = users[userIndex];
-  const timerId = useRef(null);
 
   /**Effects */
   useEffect(() => {
@@ -40,7 +39,6 @@ const UsersList = () => {
       });
   }, []);
 
-
   if (error) {
     return <p>{error}</p>;
   }
@@ -52,20 +50,17 @@ const UsersList = () => {
     );
   }
   return (
-    <main className="users-page">
-      <div>
-        <ul className="users items-list-nav">
-          {users.map((u, i) => (
-            <li className={i === userIndex ? "selected" : null} key={u.id}>
-              <button className="btn" onClick={() => dispatch(setUserIndex(i))}>
-                {u.name}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
-      {selectedUser && <UserDetails user={selectedUser} />}
-    </main>
+    <div>
+      <ul className="users items-list-nav">
+        {users.map((u, i) => (
+          <li className={i === userIndex ? "selected" : null} key={u.id}>
+            <button className="btn" onClick={() => dispatch(setUserIndex(i))}>
+              {u.name}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
 
