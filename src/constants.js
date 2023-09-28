@@ -14,6 +14,7 @@ const constants = {
   FETCH_USERS_ERROR: "FETCH_USERS_ERROR",
   SET_USER_INDEX: "SET_USER_INDEX",
   TOGGLE_SHOW_DETAILS: "TOGGLE_SHOW_DETAILS",
+  NEXT_USER: "NEXT_USER",
 };
 
 export default constants;
