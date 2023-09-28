@@ -24,6 +24,7 @@ const initialState = {
   group: "Rooms",
   bookableIndex: 0,
   bookables: [],
+  // bookableIndex: 0,
   isLoading: true,
   error: "",
 };
@@ -62,6 +63,7 @@ const BookablesList = ({ setBookable }) => {
     getData("http://localhost:3001/bookables")
       .then((data) => {
         dispatch(fetchBookablesSuccess(data));
+        // dispatch(setBookableIndex(0));
       })
       .catch((error) => {
         dispatch(fetchBookablesError(error));
