@@ -4,7 +4,7 @@ const {
   SET_GROUP,
   SET_BOOKABLE_INDEX,
   NEXT_BOOKABLE,
-  TOGGLE_SHOW_DETAILS: TOGGLE_SHOW_DETAILS,
+  TOGGLE_SHOW_DETAILS,
   NEXT_WEEK,
   PREVIOUS_WEEK,
   TODAY,
@@ -16,10 +16,14 @@ const {
   FETCH_USERS_ERROR,
   FETCH_USERS_SUCCESS,
   FETCH_USERS_REQUEST,
+  NEXT_USER,
 } = constants;
 
 export const setGroup = (groupName) => {
   return { type: SET_GROUP, payload: groupName };
+};
+export const nextUser = () => {
+  return { type: NEXT_USER };
 };
 
 export const setBookableIndex = (index) => {
