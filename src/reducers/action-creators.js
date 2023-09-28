@@ -17,6 +17,7 @@ const {
   FETCH_USERS_SUCCESS,
   FETCH_USERS_REQUEST,
   NEXT_USER,
+  SET_USER,
 } = constants;
 
 export const setGroup = (groupName) => {
@@ -24,6 +25,10 @@ export const setGroup = (groupName) => {
 };
 export const nextUser = () => {
   return { type: NEXT_USER };
+};
+
+export const setUser = (name) => {
+  return { type: SET_USER, payload: name };
 };
 
 export const setBookableIndex = (index) => {

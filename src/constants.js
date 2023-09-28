@@ -15,6 +15,7 @@ const constants = {
   SET_USER_INDEX: "SET_USER_INDEX",
   TOGGLE_SHOW_DETAILS: "TOGGLE_SHOW_DETAILS",
   NEXT_USER: "NEXT_USER",
+  SET_USER: "SET_USER",
 };
 
 export default constants;

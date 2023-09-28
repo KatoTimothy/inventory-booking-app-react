@@ -6,6 +6,7 @@ const {
   FETCH_USERS_REQUEST,
   FETCH_USERS_SUCCESS,
   NEXT_USER,
+  SET_USER,
 } = constants;
 
 //manages state of userList component
