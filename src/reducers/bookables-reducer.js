@@ -44,6 +44,7 @@ const bookablesReducer = (state, action) => {
         ...state,
         isLoading: false,
         bookables: action.payload,
+        bookableIndex: 0,
       };
     case FETCH_BOOKABLES_ERROR:
       return {
