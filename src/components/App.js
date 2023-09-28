@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import "../App.css";
 
 import { FaCalendarAlt, FaDoorOpen, FaUsers } from "react-icons/fa";
-
 import UserPicker from "./Users/UserPicker";
 import BookingsPage from "./Bookings/BookingsPage";
 import { BookablesPage } from "./Bookables/BookablesPage";
