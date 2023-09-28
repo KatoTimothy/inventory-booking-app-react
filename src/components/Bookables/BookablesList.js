@@ -1,12 +1,9 @@
-import { useEffect, useReducer } from "react";
+import { useEffect } from "react";
 
 import { FaArrowRight } from "react-icons/fa";
 import Spinner from "../UI/Spinner";
 
 import getData from "../../utils/api";
-
-//reducer to manage component state with actions
-import bookablesReducer from "../../reducers/bookables-reducer";
 
 //Action creator functions
 //that return actions used to update component state
@@ -19,21 +16,8 @@ import {
   setBookableIndex,
 } from "../../reducers/action-creators";
 
-//initial state for the reducer
-const initialState = {
-  group: "Rooms",
-  bookableIndex: 0,
-  bookables: [],
-  // bookableIndex: 0,
-  isLoading: true,
-  error: "",
-};
-
-const BookablesList = ({ setBookable }) => {
-  const [state, dispatch] = useReducer(bookablesReducer, initialState);
-
+const BookablesList = ({ setBookable, state, dispatch }) => {
   const { group, bookableIndex, bookables, isLoading, error } = state;
-  //setBookable
   //List of all group names bookables belong to
   const groups = [...new Set(bookables.map((b) => b.group))];
 
@@ -44,35 +28,35 @@ const BookablesList = ({ setBookable }) => {
   /**event handler functions */
   function onChangeBookable(index) {
     dispatch(setBookableIndex(index));
-    setBookable(bookablesInGroup[index]);
   }
-
   function onClickNextButton() {
     dispatch(nextBookable());
   }
-
   function onChangeGroup(group) {
     dispatch(setGroup(group));
   }
 
   /**effects */
-
   //Loads bookables data only once: when the component mounts
   useEffect(() => {
-    dispatch(fetchBookablesRequest());
-    getData("http://localhost:3001/bookables")
-      .then((data) => {
+    //url containing bookables data
+    const url = "http://localhost:3001/bookables";
+
+    async function fetchData(dataUrl) {
+      try {
+        dispatch(fetchBookablesRequest());
+        const data = await getData(dataUrl);
         dispatch(fetchBookablesSuccess(data));
-        // dispatch(setBookableIndex(0));
-      })
-      .catch((error) => {
-        dispatch(fetchBookablesError(error));
-      });
+      } catch (error) {
+        dispatch(fetchBookablesError(error.message));
+      }
+    }
+    fetchData(url);
   }, []);
 
   /**UI */
   if (error) {
-    return <p>{error}</p>;
+    return <p className="bookingsError">{error}</p>;
   }
 
   //display loading UI (spinner) if data hasn't arrived
