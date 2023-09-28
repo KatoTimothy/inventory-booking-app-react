@@ -32,13 +32,11 @@ export const BookablesPage = () => {
   const [state, dispatch] = useReducer(bookablesReducer, initialState);
   const { isLoading, error } = state;
 
-  //Loads bookables data only once: when the component mounts
+  //Loads bookables data only once:when the component mounts
   useEffect(() => {
     //url containing bookables data
     const url = "http://localhost:3001/bookables";
 
-    /**effects */
-    //fetches data only once. That is, when the component mounts
     async function fetchData(dataUrl) {
       try {
         dispatch(fetchBookablesRequest());
@@ -55,7 +53,7 @@ export const BookablesPage = () => {
   //loading spinner renders if data hasn't arrived
   if (isLoading) {
     return (
-      <main className="bookables-page">
+      <main>
         <p>
           <Spinner /> Loading bookables
         </p>
@@ -64,9 +62,11 @@ export const BookablesPage = () => {
   }
   //error page displays if error occurs during data fetch
   if (error) {
-    <main className="bookables-page">
-      <p className="bookingsError">{error}</p>
-    </main>;
+    return (
+      <main>
+        <p className="bookingsError">{error}</p>
+      </main>
+    );
   }
 
   return (
