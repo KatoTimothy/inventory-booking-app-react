@@ -2,7 +2,7 @@ import constants from "../constants";
 
 const {
   SET_GROUP,
-  SET_BOOKABLE_INDEX: SET_BOOKABLE,
+  SET_BOOKABLE_INDEX,
   NEXT_BOOKABLE,
   FETCH_BOOKABLES_REQUEST,
   FETCH_BOOKABLES_SUCCESS,
@@ -18,7 +18,7 @@ const bookablesReducer = (state, action) => {
         group: action.payload,
         bookableIndex: 0,
       };
-    case SET_BOOKABLE:
+    case SET_BOOKABLE_INDEX:
       return {
         ...state,
         bookableIndex: action.payload,
@@ -55,7 +55,7 @@ const bookablesReducer = (state, action) => {
     case TOGGLE_SHOW_DETAILS:
       return {
         ...state,
-        showDetails: !state.showDetails,
+        hasDetails: !state.hasDetails,
       };
     default:
       return state;
