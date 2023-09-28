@@ -8,29 +8,28 @@ const { days } = data;
 const BookableDetails = ({ bookable }) => {
   const [hasDetails, setHasDetails] = useState(true);
 
-  const toggleHasDetails = () => {
+  //event handlers
+  const onShowDetails = () => {
     setHasDetails((has) => !has);
   };
 
   return bookable ? (
-    // container
     <div className="bookable-details item">
-      {/* header */}
+      {/* heading section */}
       <div className="item-header">
         <h2>{bookable.title}</h2>
-
-        {/* show details checkbox */}
         <span className="controls">
           <label>
             <input
               type="checkbox"
-              onChange={toggleHasDetails}
+              onChange={onShowDetails}
               checked={hasDetails}
             />
-            Show details
+            <span>{hasDetails ? "Hide" : "Show"}</span> details
           </label>
         </span>
       </div>
+
       <p>{bookable.notes}</p>
 
       {/* details section */}
