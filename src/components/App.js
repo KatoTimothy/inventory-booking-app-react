@@ -41,6 +41,7 @@ const App = () => (
         <UserPicker />
       </header>
       <Routes>
+        <Route path="/" element={ <BookablesPage/>} />
         <Route path="/bookings" element={<BookingsPage />} />
         <Route path="/bookables" element={<BookablesPage />} />
         <Route path="/users" element={<UsersList />} />
