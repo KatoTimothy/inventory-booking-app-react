@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer } from "react";
+import { useEffect, useReducer, useRef } from "react";
 
 import getData from "../../utils/api";
 import Spinner from "../UI/Spinner";
@@ -9,7 +9,7 @@ import {
   fetchUsersError,
   fetchUsersRequest,
   fetchUsersSuccess,
-  fetchBookablesRequest,
+  nextUser,
 } from "../../reducers/action-creators";
 import UserDetails from "./UserDetails";
 
@@ -24,13 +24,13 @@ const UsersList = () => {
   const [state, dispatch] = useReducer(usersReducer, initialState);
   /**Manage state */
   const { users, userIndex, isLoading, error } = state;
-  const selectedUser = users?.[userIndex];
+  const selectedUser = users[userIndex];
+  const timerId = useRef(null);
 
   /**Effects */
   useEffect(() => {
     //fetch data from server
     dispatch(fetchUsersRequest());
-
     getData("http://localhost:3001/users")
       .then((userData) => {
         dispatch(fetchUsersSuccess(userData));
@@ -40,18 +40,19 @@ const UsersList = () => {
       });
   }, []);
 
+
   if (error) {
     return <p>{error}</p>;
   }
   if (isLoading) {
     return (
-      <p>
+      <main className="users-page">
         <Spinner /> User data is loading...
-      </p>
+      </main>
     );
   }
   return (
-    <main main className="users-page">
+    <main className="users-page">
       <div>
         <ul className="users items-list-nav">
           {users.map((u, i) => (
@@ -63,7 +64,6 @@ const UsersList = () => {
           ))}
         </ul>
       </div>
-
       {selectedUser && <UserDetails user={selectedUser} />}
     </main>
   );
