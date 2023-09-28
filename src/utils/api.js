@@ -16,7 +16,7 @@ export const getBookings = (bookableId, startDate, endDate) => {
 const getData = async (url) => {
   const res = await fetch(url);
   if (!res.ok) {
-    throw new Error("Ooops! Failed to fetch data man..");
+    throw new Error("Ooops! Failed to fetch data...");
   }
   return await res.json();
 };
