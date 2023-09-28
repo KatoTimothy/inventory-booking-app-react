@@ -2,7 +2,7 @@ import constants from "../constants";
 
 const {
   SET_GROUP,
-  SET_BOOKABLE,
+  SET_BOOKABLE_INDEX,
   NEXT_BOOKABLE,
   TOGGLE_SHOW_DETAILS: TOGGLE_SHOW_DETAILS,
   NEXT_WEEK,
@@ -22,8 +22,8 @@ export const setGroup = (groupName) => {
   return { type: SET_GROUP, payload: groupName };
 };
 
-export const setBookable = (index) => {
-  return { type: SET_BOOKABLE, payload: index };
+export const setBookableIndex = (index) => {
+  return { type: SET_BOOKABLE_INDEX, payload: index };
 };
 
 export const nextBookable = () => {
