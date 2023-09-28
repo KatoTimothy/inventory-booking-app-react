@@ -1,7 +1,7 @@
 import { FaArrowRight } from "react-icons/fa";
 
 /**
- * import action creator functions that 
+ * import action creator functions that
  * will return actions used to update component state
  * */
 import {
@@ -12,7 +12,7 @@ import {
 
 const BookablesList = ({ setBookable, state, dispatch }) => {
   const { group, bookableIndex, bookables } = state;
-  //List of all group names bookables belong to
+  //List of all group names that various bookables belong to
   const groups = [...new Set(bookables.map((b) => b.group))];
 
   //List of bookables in current group

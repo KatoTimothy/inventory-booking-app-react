@@ -20,8 +20,8 @@ const BookableDetails = ({ bookable, hasDetails, dispatch }) => {
           <label>
             <input
               type="checkbox"
-              onChange={(e) => onShowDetails(e)}
               checked={hasDetails}
+              onChange={(e) => onShowDetails(e)}
             />
             <span>{hasDetails ? "Hide" : "Show"}</span> details
           </label>

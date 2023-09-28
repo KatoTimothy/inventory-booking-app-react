@@ -28,9 +28,9 @@ const initialState = {
 };
 
 export const BookablesPage = () => {
-  const [bookable, setBookable] = useState();
+  const [bookable, setBookable] = useState(null);
   const [state, dispatch] = useReducer(bookablesReducer, initialState);
-  const { isLoading, error } = state;
+  const { isLoading, error, hasDetails, bookables } = state;
 
   //Loads bookables data only once:when the component mounts
   useEffect(() => {
@@ -70,19 +70,17 @@ export const BookablesPage = () => {
   }
 
   return (
-    <>
-      <main className="bookables-page">
-        <BookablesList
-          setBookable={setBookable}
-          state={state}
-          dispatch={dispatch}
-        />
-        <BookableDetails
-          bookable={bookable}
-          hasDetails={state.hasDetails}
-          dispatch={dispatch}
-        />
-      </main>
-    </>
+    <main className="bookables-page">
+      <BookablesList
+        setBookable={setBookable}
+        state={state}
+        dispatch={dispatch}
+      />
+      <BookableDetails
+        bookable={bookable}
+        hasDetails={hasDetails}
+        dispatch={dispatch}
+      />
+    </main>
   );
 };
