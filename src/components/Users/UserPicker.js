@@ -1,35 +1,30 @@
-import { useState, useEffect } from "react";
+import { useContext } from "react";
 import Spinner from "../UI/Spinner";
-import getData from "../../utils/api";
+import { UserContext } from "./UserProvider";
 
-//import data from "../../static.json";
-//const { users } = data;
+import { setUserIndex } from "../../reducers/action-creators";
 
 const UserPicker = () => {
-  const [users, setUsers] = useState([]);
-  const [userIndex, setUserIndex] = useState(0);
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const { state, dispatch } = useContext(UserContext);
+  const { isLoading, users, userIndex } = state;
 
-  useEffect(() => {
-    setIsLoading(true);
-    getData("http://localhost:3001/users")
-      .then((userData) => {
-        setUsers(userData);
-        setIsLoading(false);
-      })
-      .catch((e) => {
-        setError(e.message);
-      });
-  }, []);
-
+  //event handlers
+  function handleOnChangeUser(e) {
+    dispatch(setUserIndex(parseInt(e.target.value)));
+  }
   if (isLoading) {
-    return <Spinner />;
+    return (
+      <span>
+        <Spinner />;
+      </span>
+    );
   }
   return (
-    <select>
-      {users.map(({ name, id }) => (
-        <option key={id}>{name}</option>
+    <select value={userIndex} onChange={(e) => handleOnChangeUser(e)}>
+      {users.map(({ name }, index) => (
+        <option key={index} value={index}>
+          {name}
+        </option>
       ))}
     </select>
   );
