@@ -1,22 +1,18 @@
-const UserDetails = ({ dispatch, state }) => {
+import { useContext } from "react";
+import { UserContext } from "./UserProvider";
+import UserPicker from "./UserPicker";
+
+const UserDetails = () => {
+  const { state } = useContext(UserContext);
+
   const { users, userIndex } = state;
   const user = users[userIndex];
-
-  //event handlers
-  // const currentUserIndex = user
-  function onChangeUser(e) {}
 
   return user ? (
     <div className="item user ">
       <div className="item-header">
         <h2>{user.name}</h2>
-        <select value={user.name} onChange={(e) => onChangeUser(e)}>
-          {users.map(({ name, id }) => (
-            <option value={name} key={id}>
-              {name}
-            </option>
-          ))}
-        </select>
+        <UserPicker />
       </div>
       <div className="item-details">
         <h3>{user.title}</h3>
