@@ -1,14 +1,15 @@
-//This action is used to update details checkbox accordingly
-import { toggleShowDetails } from "../../reducers/action-creators";
+import { useState } from "react";
 
-// import data
+//contains names of days of a week
 import data from "../../static.json";
 const { days } = data;
 
-const BookableDetails = ({ bookable, hasDetails, dispatch }) => {
+const BookableDetails = ({ bookable }) => {
+  const [hasDetails, setHasDetails] = useState(true);
+
   //event handlers
-  const onShowDetails = (e) => {
-    dispatch(toggleShowDetails(e.target.value));
+  const handleOnToggleDetails = () => {
+    setHasDetails((hasDetails) => !hasDetails);
   };
 
   return bookable ? (
@@ -21,7 +22,7 @@ const BookableDetails = ({ bookable, hasDetails, dispatch }) => {
             <input
               type="checkbox"
               checked={hasDetails}
-              onChange={(e) => onShowDetails(e)}
+              onChange={handleOnToggleDetails}
             />
             <span>{hasDetails ? "Hide" : "Show"}</span> details
           </label>
