@@ -1,17 +1,53 @@
-import { useContext } from "react";
+import { useContext, useEffect, useReducer } from "react";
 import Spinner from "../UI/Spinner";
 import { UserContext } from "./UserProvider";
 
-import { setUserIndex } from "../../reducers/action-creators";
+import {
+  setUserIndex,
+  fetchUsersError,
+  fetchUsersRequest,
+  fetchUsersSuccess,
+} from "../../reducers/action-creators";
+
+import usersReducer from "../../reducers/users-reducer";
+import getData from "../../utils/api";
+
+const initialState = {
+  isLoading: true,
+  error: "",
+  users: [],
+};
 
 const UserPicker = () => {
-  const { state, dispatch } = useContext(UserContext);
-  const { isLoading, users, userIndex } = state;
+  const [state, dispatch] = useReducer(usersReducer, initialState);
+  const { isLoading, users } = state;
 
-  //event handlers
+  //Extract the globally shared selected userIndex
+  const { index, setIndex } = useContext(UserContext);
+
+  /**Event handlers */
   function handleOnChangeUser(e) {
-    dispatch(setUserIndex(parseInt(e.target.value)));
+    const inputValue = parseInt(e.target.value);
+    setIndex(inputValue);
   }
+
+  /**Effects */
+  //Runs once, to load user data
+  useEffect(() => {
+    const uri = "http://localhost:3001/users";
+    async function fetchUserData(uri) {
+      try {
+        dispatch(fetchUsersRequest());
+        const data = await getData(uri);
+        data && dispatch(fetchUsersSuccess(data));
+      } catch (error) {
+        dispatch(fetchUsersError(error.message));
+      }
+    }
+    fetchUserData(uri);
+  }, []);
+
+  /**UI */
   if (isLoading) {
     return (
       <span>
@@ -19,10 +55,11 @@ const UserPicker = () => {
       </span>
     );
   }
+
   return (
-    <select value={userIndex} onChange={(e) => handleOnChangeUser(e)}>
-      {users.map(({ name }, index) => (
-        <option key={index} value={index}>
+    <select value={index} onChange={(e) => handleOnChangeUser(e)}>
+      {users.map(({ name }, i) => (
+        <option key={i} value={i}>
           {name}
         </option>
       ))}

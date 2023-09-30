@@ -87,7 +87,7 @@ export const fetchBookablesSuccess = (bookables) => {
   };
 };
 
-//dispatched when fetching `bookables` data request is unsuccesful
+//Used when fetching `bookables` data request has failed
 export const fetchBookablesError = (error) => {
   return {
     type: FETCH_BOOKABLES_ERROR,

@@ -7,7 +7,6 @@ const {
   FETCH_BOOKABLES_REQUEST,
   FETCH_BOOKABLES_SUCCESS,
   FETCH_BOOKABLES_ERROR,
-  TOGGLE_SHOW_DETAILS,
 } = constants;
 
 const bookablesReducer = (state, action) => {
@@ -36,26 +35,20 @@ const bookablesReducer = (state, action) => {
       return {
         ...state,
         isLoading: true,
-        error: "",
         bookables: [],
       };
     case FETCH_BOOKABLES_SUCCESS:
       return {
         ...state,
-        isLoading: false,
         bookables: action.payload,
-        bookableIndex: 0,
+        isLoading: false,
       };
     case FETCH_BOOKABLES_ERROR:
       return {
         ...state,
         isLoading: false,
+        bookables:[],
         error: action.payload,
-      };
-    case TOGGLE_SHOW_DETAILS:
-      return {
-        ...state,
-        hasDetails: !state.hasDetails,
       };
     default:
       return state;
