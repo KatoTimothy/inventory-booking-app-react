@@ -7,11 +7,12 @@ const { days } = data;
 const BookableDetails = ({ bookable }) => {
   const [hasDetails, setHasDetails] = useState(true);
 
-  //event handlers
+  /**Event handlers */
   const handleOnToggleDetails = () => {
     setHasDetails((hasDetails) => !hasDetails);
   };
 
+  /**UI */
   return bookable ? (
     <div className="bookable-details item">
       {/* heading section */}
