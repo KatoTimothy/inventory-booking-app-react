@@ -5,10 +5,9 @@ import BookableDetails from "./BookablesDetails";
 
 export const BookablesPage = () => {
   const [bookable, setBookable] = useState(null);
-
   return (
     <main className="bookables-page">
-      <BookablesList setBookable={setBookable} />
+      <BookablesList bookable={bookable} setBookable={setBookable} />
       <BookableDetails bookable={bookable} />
     </main>
   );
