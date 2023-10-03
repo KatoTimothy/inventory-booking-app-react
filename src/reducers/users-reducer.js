@@ -1,47 +1,33 @@
-import constants from "../constants";
+import actionTypes from "../constants";
 
 const {
-  SET_USER_INDEX,
-  FETCH_USERS_ERROR,
-  FETCH_USERS_REQUEST,
-  FETCH_USERS_SUCCESS,
-  NEXT_USER,
-  SET_USER,
-} = constants;
+  DATA_REQUEST_INNITIATED,
+  DATA_REQUEST_SUCCESSFUL,
+  DATA_REQUEST_FAILED,
+} = actionTypes;
 
 //manages state of userList component
 const usersReducer = (state, action) => {
   switch (action.type) {
-    case SET_USER_INDEX:
-      return {
-        ...state,
-        userIndex: action.payload,
-      };
-    case FETCH_USERS_REQUEST:
+    case DATA_REQUEST_INNITIATED:
       return {
         ...state,
         users: [],
         isLoading: true,
         error: "",
       };
-    case FETCH_USERS_SUCCESS:
+    case DATA_REQUEST_SUCCESSFUL:
       return {
         ...state,
         users: action.payload,
         isLoading: false,
         error: "",
       };
-    case FETCH_USERS_ERROR:
+    case DATA_REQUEST_FAILED:
       return {
         ...state,
         error: action.payload,
         isLoading: false,
-      };
-    case NEXT_USER:
-      const numOfUsers = state.users.length;
-      return {
-        ...state,
-        userIndex: (state.userIndex + 1) % numOfUsers,
       };
     default:
       return state;
