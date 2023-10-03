@@ -3,10 +3,9 @@ import Spinner from "../UI/Spinner";
 import { UserContext } from "./UserProvider";
 
 import {
-  setUserIndex,
-  fetchUsersError,
-  fetchUsersRequest,
-  fetchUsersSuccess,
+  dataRequestFailed,
+  dataRequestInitiated,
+  dataRequestSuccessful,
 } from "../../reducers/action-creators";
 
 import usersReducer from "../../reducers/users-reducer";
@@ -22,13 +21,14 @@ const UserPicker = () => {
   const [state, dispatch] = useReducer(usersReducer, initialState);
   const { isLoading, users } = state;
 
-  //Extract the globally shared selected userIndex
-  const { index, setIndex } = useContext(UserContext);
+  //Extract the global state (current user)
+  const { user, setUser } = useContext(UserContext);
 
   /**Event handlers */
   function handleOnChangeUser(e) {
-    const inputValue = parseInt(e.target.value);
-    setIndex(inputValue);
+    const userId = parseInt(e.target.value);
+    const userIndex = users.findIndex((u) => u.id === userId);
+    setUser(users[userIndex]);
   }
 
   /**Effects */
@@ -37,11 +37,11 @@ const UserPicker = () => {
     const uri = "http://localhost:3001/users";
     async function fetchUserData(uri) {
       try {
-        dispatch(fetchUsersRequest());
+        dispatch(dataRequestInitiated());
         const data = await getData(uri);
-        data && dispatch(fetchUsersSuccess(data));
+        dispatch(dataRequestSuccessful(data));
       } catch (error) {
-        dispatch(fetchUsersError(error.message));
+        dispatch(dataRequestFailed(error.message));
       }
     }
     fetchUserData(uri);
@@ -56,15 +56,15 @@ const UserPicker = () => {
     );
   }
 
-  return (
-    <select value={index} onChange={(e) => handleOnChangeUser(e)}>
-      {users.map(({ name }, i) => (
-        <option key={i} value={i}>
-          {name}
+  return user ? (
+    <select value={user.id} onChange={(e) => handleOnChangeUser(e)}>
+      {users.map((u, i) => (
+        <option key={i} value={u.id}>
+          {u.name}
         </option>
       ))}
     </select>
-  );
+  ) : null;
 };
 
 export default UserPicker;
