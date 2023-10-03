@@ -1,6 +1,8 @@
 import { useEffect, useReducer } from "react";
 import { FaArrowRight } from "react-icons/fa";
 
+import Spinner from "../UI/Spinner";
+
 import getData from "../../utils/api";
 
 //reducer to manage component state with actions
@@ -11,46 +13,40 @@ import bookablesReducer from "../../reducers/bookables-reducer";
  * will return actions used to update component state
  * */
 import {
-  nextBookable,
   setGroup,
-  fetchBookablesSuccess,
-  fetchBookablesError,
-  setBookableIndex,
-  fetchBookablesRequest,
+  dataRequestSuccessful,
+  dataRequestFailed,
+  dataRequestInitiated,
 } from "../../reducers/action-creators";
-import Spinner from "../UI/Spinner";
 
 // //initial state for the reducer
 const initialState = {
-  bookableIndex: 0,
   group: "Rooms",
   bookables: [],
   isLoading: true,
   error: "",
 };
 
-const BookablesList = ({ setBookable }) => {
+const BookablesList = ({ bookable, setBookable }) => {
   const [state, dispatch] = useReducer(bookablesReducer, initialState);
-  const { bookables, group, isLoading, error, bookableIndex } = state;
 
-  //List of all group names bookables are categorized into
+  const { bookables, group, isLoading, error } = state;
+
   const groups = [...new Set(bookables.map((b) => b.group))];
-
-  //List of bookables in the selected group
-  const bookablesInGroup = bookables.filter((b) => b.group === group);
-
-  //compute and set bookable using bookableIndex
-  setBookable(bookablesInGroup[bookableIndex]);
+  const bookablesInGroup = getBookablesInGroup(bookables, group);
+  const bookableIndex = bookablesInGroup.indexOf(bookable);
 
   /**event handler functions */
-  function handleOnChangeBookable(index) {
-    dispatch(setBookableIndex(index));
+  function handleOnChangeBookable(bookable) {
+    setBookable(bookable);
   }
   function handleOnClickNextButton() {
-    dispatch(nextBookable());
+    const nextBookableIndex = (bookableIndex + 1) % bookablesInGroup.length;
+    setBookable(bookablesInGroup[nextBookableIndex]);
   }
-  function handleOnChangeGroup(group) {
-    dispatch(setGroup(group));
+  function handleOnChangeGroup(groupName) {
+    dispatch(setGroup(groupName));
+    setBookable(getBookablesInGroup(bookables, groupName)[0]);
   }
 
   /**Effects */
@@ -61,11 +57,12 @@ const BookablesList = ({ setBookable }) => {
 
     async function fetchData(dataUrl) {
       try {
-        fetchBookablesRequest();
+        dataRequestInitiated();
         const data = await getData(dataUrl);
-        dispatch(fetchBookablesSuccess(data));
+        dispatch(dataRequestSuccessful(data));
+        setBookable(getBookablesInGroup(data, group)[0]);
       } catch (error) {
-        dispatch(fetchBookablesError(error.message));
+        dispatch(dataRequestFailed(error.message));
       }
     }
     fetchData(url);
@@ -82,7 +79,8 @@ const BookablesList = ({ setBookable }) => {
   if (error) {
     return <div className="bookingsError">{error}</div>;
   }
-  return (
+
+  return bookable ? (
     <div>
       {/* groups selector */}
       <select
@@ -91,15 +89,17 @@ const BookablesList = ({ setBookable }) => {
         onChange={(e) => handleOnChangeGroup(e.target.value)}
       >
         {groups.map((g) => (
-          <option key={g}>{g}</option>
+          <option key={g} value={g}>
+            {g}
+          </option>
         ))}
       </select>
 
       {/* Bookables list in the selected group */}
       <ul className="bookables items-list-nav">
         {bookablesInGroup?.map((b, i) => (
-          <li key={b.id} className={i === bookableIndex ? "selected" : null}>
-            <button className="btn" onClick={() => handleOnChangeBookable(i)}>
+          <li key={i} className={b.id === bookable?.id ? "selected" : null}>
+            <button className="btn" onClick={() => handleOnChangeBookable(b)}>
               {b.title}
             </button>
           </li>
@@ -114,7 +114,12 @@ const BookablesList = ({ setBookable }) => {
         </button>
       </p>
     </div>
-  );
+  ) : null;
 };
+
+//Returns bookables belonging to a certain group
+function getBookablesInGroup(bookables, groupName) {
+  return bookables?.filter((b) => b.group === groupName);
+}
 
 export default BookablesList;
