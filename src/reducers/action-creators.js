@@ -1,49 +1,26 @@
-import constants from "../constants";
+import actionTypes from "../constants";
 
 const {
   SET_GROUP,
-  SET_BOOKABLE_INDEX,
-  NEXT_BOOKABLE,
   TOGGLE_SHOW_DETAILS,
   NEXT_WEEK,
   PREVIOUS_WEEK,
   TODAY,
   SET_DATE,
-  FETCH_BOOKABLES_REQUEST,
-  FETCH_BOOKABLES_SUCCESS,
-  FETCH_BOOKABLES_ERROR,
-  SET_USER_INDEX,
-  FETCH_USERS_ERROR,
-  FETCH_USERS_SUCCESS,
-  FETCH_USERS_REQUEST,
-  NEXT_USER,
-  SET_USER,
-} = constants;
+  DATA_REQUEST_INNITIATED,
+  DATA_REQUEST_SUCCESSFUL,
+  DATA_REQUEST_FAILED,
+} = actionTypes;
 
 export const setGroup = (groupName) => {
   return { type: SET_GROUP, payload: groupName };
-};
-export const nextUser = () => {
-  return { type: NEXT_USER };
-};
-
-export const setUser = (name) => {
-  return { type: SET_USER, payload: name };
-};
-
-export const setBookableIndex = (index) => {
-  return { type: SET_BOOKABLE_INDEX, payload: index };
-};
-
-export const nextBookable = () => {
-  return { type: NEXT_BOOKABLE };
 };
 
 export const toggleShowDetails = () => {
   return { type: TOGGLE_SHOW_DETAILS };
 };
 
-//dispatched to get next week's week object
+/**BOOKINGS */
 export const nextWeek = () => {
   return {
     type: NEXT_WEEK,
@@ -72,51 +49,25 @@ export const setDate = (date) => {
   };
 };
 
-//dispatched when making request to fetch `bookables` data
-export const fetchBookablesRequest = () => {
+/*FOR API CALL ACTIONS*/
+export const dataRequestInitiated = () => {
   return {
-    type: FETCH_BOOKABLES_REQUEST,
+    type: DATA_REQUEST_INNITIATED,
   };
 };
 
 //dispatched when fetching `bookables` data request is successful
-export const fetchBookablesSuccess = (bookables) => {
+export const dataRequestSuccessful = (data) => {
   return {
-    type: FETCH_BOOKABLES_SUCCESS,
-    payload: bookables,
+    type: DATA_REQUEST_SUCCESSFUL,
+    payload: data,
   };
 };
 
 //Used when fetching `bookables` data request has failed
-export const fetchBookablesError = (error) => {
+export const dataRequestFailed = (error) => {
   return {
-    type: FETCH_BOOKABLES_ERROR,
-    payload: error,
-  };
-};
-
-export const setUserIndex = (index) => {
-  return {
-    type: SET_USER_INDEX,
-    payload: index,
-  };
-};
-
-export const fetchUsersRequest = () => {
-  return {
-    type: FETCH_USERS_REQUEST,
-  };
-};
-
-export const fetchUsersSuccess = (users) => {
-  return {
-    type: FETCH_USERS_SUCCESS,
-    payload: users,
-  };
-};
-export const fetchUsersError = (error) => {
-  return {
-    type: FETCH_USERS_ERROR,
+    type: DATA_REQUEST_FAILED,
     payload: error,
   };
 };

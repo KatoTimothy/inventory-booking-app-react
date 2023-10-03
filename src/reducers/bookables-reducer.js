@@ -1,13 +1,11 @@
-import constants from "../constants";
+import actionTypes from "../constants";
 
 const {
   SET_GROUP,
-  SET_BOOKABLE_INDEX,
-  NEXT_BOOKABLE,
-  FETCH_BOOKABLES_REQUEST,
-  FETCH_BOOKABLES_SUCCESS,
-  FETCH_BOOKABLES_ERROR,
-} = constants;
+  DATA_REQUEST_INNITIATED,
+  DATA_REQUEST_SUCCESSFUL,
+  DATA_REQUEST_FAILED,
+} = actionTypes;
 
 const bookablesReducer = (state, action) => {
   switch (action.type) {
@@ -15,39 +13,24 @@ const bookablesReducer = (state, action) => {
       return {
         ...state,
         group: action.payload,
-        bookableIndex: 0,
       };
-    case SET_BOOKABLE_INDEX:
-      return {
-        ...state,
-        bookableIndex: action.payload,
-      };
-    case NEXT_BOOKABLE:
-      const bookablesInGroupCount = state.bookables.filter(
-        (bookable) => bookable.group === state.group
-      ).length;
-
-      return {
-        ...state,
-        bookableIndex: (state.bookableIndex + 1) % bookablesInGroupCount,
-      };
-    case FETCH_BOOKABLES_REQUEST:
+    case DATA_REQUEST_INNITIATED:
       return {
         ...state,
         isLoading: true,
         bookables: [],
       };
-    case FETCH_BOOKABLES_SUCCESS:
+    case DATA_REQUEST_SUCCESSFUL:
       return {
         ...state,
         bookables: action.payload,
         isLoading: false,
       };
-    case FETCH_BOOKABLES_ERROR:
+    case DATA_REQUEST_FAILED:
       return {
         ...state,
         isLoading: false,
-        bookables:[],
+        bookables: [],
         error: action.payload,
       };
     default:
