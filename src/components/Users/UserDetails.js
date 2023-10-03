@@ -1,4 +1,8 @@
-const UserDetails = ({ user }) => {
+import { useContext } from "react";
+import { UserContext } from "./UserProvider";
+
+const UserDetails = () => {
+  const { user } = useContext(UserContext);
   return user ? (
     <div className="item user ">
       <div className="item-header">
